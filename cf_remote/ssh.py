@@ -38,7 +38,7 @@ class LocalConnection:
         src = os.path.abspath(src)
         dst = os.path.basename(src)
         if src != dst:
-            if (not hide):
+            if not hide:
                 print("Local copy: '%s' -> '%s'" % (src, dst))
             shutil.copy(src, dst)
 

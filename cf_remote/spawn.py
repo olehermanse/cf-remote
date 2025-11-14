@@ -825,12 +825,20 @@ def spawn_vm_in_vagrant(
     try:
         result = subprocess.run(command_args, env=vagrant_env, stderr=subprocess.PIPE)
     except FileNotFoundError as e:
-        raise CFRUserError("'vagrant' not found - go to https://www.vagrantup.com/downloads to download and install vagrant ({}).".format(e))
+        raise CFRUserError(
+            "'vagrant' not found - go to https://www.vagrantup.com/downloads to download and install vagrant ({}).".format(
+                e
+            )
+        )
 
     if result.returncode != 0:
         print()
         log.error(result.stderr.decode())
-        raise CFRUserError("vagrant exited with error code {} - Make sure you have a working vagrant setup, install VirtualBox if you haven't already: https://www.virtualbox.org/wiki/Downloads".format(result.returncode))
+        raise CFRUserError(
+            "vagrant exited with error code {} - Make sure you have a working vagrant setup, install VirtualBox if you haven't already: https://www.virtualbox.org/wiki/Downloads".format(
+                result.returncode
+            )
+        )
 
     log.debug("Copying vagrant ssh config")
 

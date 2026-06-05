@@ -504,7 +504,7 @@ def validate_command(command, args):
     if command in ["sudo", "run"]:
         if len(args.remote_command) != 1:
             raise CFRExitError(
-                "cf-remote sude/run requires exactly 1 command (use quotes)"
+                "cf-remote sudo/run requires exactly 1 command (use quotes)"
             )
         args.remote_command = args.remote_command[0]
 

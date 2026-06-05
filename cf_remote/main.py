@@ -1,6 +1,8 @@
 import argparse
 import os
 import sys
+import re
+import socket
 
 from cf_remote import log
 from cf_remote import version
@@ -613,6 +615,13 @@ def get_cloud_hosts(name, bootstrap_ips=False):
     return ret
 
 
+def dns_lookup(name):
+    try:
+        return bool(socket.getaddrinfo(name, 22))
+    except socket.gaierror as e:
+        raise CFRUserError("DNS lookup failed for '{}': {}".format(name, e))
+
+
 def resolve_hosts(string, single=False, bootstrap_ips=False):
     log.debug("resolving hosts from '{}'".format(string))
     if is_file_string(string):
@@ -627,8 +636,12 @@ def resolve_hosts(string, single=False, bootstrap_ips=False):
             hosts = get_cloud_hosts(name, bootstrap_ips)
             ret.extend(hosts)
             log.debug("found in cloud, adding '{}'".format(hosts))
-        else:
+        elif name.startswith("@"):
+            raise CFRUserError("'{}' does not exist.".format(name))
+        elif re.search(r"[@:.]", name) or dns_lookup(name):
             ret.append(name)
+        else:
+            raise CFRUserError("'{}' does not exist.".format(name))
 
     if single:
         if len(ret) != 1:

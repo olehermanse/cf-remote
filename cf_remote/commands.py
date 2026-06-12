@@ -1071,9 +1071,12 @@ def agent(hosts, bootstrap=None):
         if not data["agent"]:
             raise CFRExitError("CFEngine not installed on {}".format(host))
 
-        command = "{}".format(data["agent"])
+        args = [data["agent"]]
         if bootstrap:
-            command += "--bootstrap {}".format(bootstrap[0])
+            args.append("--bootstrap")
+            args.append(bootstrap[0])
+
+        command = " ".join(args)
 
         output = run_command(host, command, sudo=True)
         if output:

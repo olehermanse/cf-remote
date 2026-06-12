@@ -83,8 +83,10 @@ jobs:
         run: python -m pytest
       - name: Install
         run: |
-          python setup.py sdist bdist_wheel
-          python -m pip install dist/cf_remote-*.whl
+          # python setup.py sdist bdist_wheel
+          # python -m pip install dist/cf_remote-*.whl
+          # TODO: Figure out a way to use caching and pyenv rather than force install .
+          pip install . --force
       - name: Sanity check
         run: cf-remote -V
       - name: Run docker test

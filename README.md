@@ -150,7 +150,7 @@ Your demo hub is ready: https://52.214.209.170/ (Username: admin, Password: pass
 
 Mission portal will be available at that IP, using the username and password from the last log message.
 
-When you are done, you can decommision your spawned instance(s) using:
+When you are done, you can decommission your spawned instance(s) using:
 
 ```
 $ cf-remote destroy --all
